@@ -27,7 +27,8 @@ namespace SpaceInvaders
 
         int projectileSpeed = -10;
 
-        int counter = 0;
+        int score = 0;
+        int round = 1;
 
         int x = 0;
 
@@ -126,56 +127,11 @@ namespace SpaceInvaders
             {
                 if (row1Aliens[0].X < 0)
                 {
-                    //Dropping row of aliens down
-                    for (int i = 0; i < row1Aliens.Count(); i++)
-                    {
-                        int x = row1Aliens[i].X + 6;
-                        int y = row1Aliens[i].Y + 20;
-                        row1Aliens[i] = new Rectangle(x, y, row1Aliens[i].Height, row1Aliens[i].Width);
-                    }
-
-                    for (int i = 0; i < row2Aliens.Count(); i++)
-                    {
-                        int y = row2Aliens[i].Y + 20;
-                        row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
-                    }
-
-                    for (int i = 0; i < row3Aliens.Count(); i++)
-                    {
-                        int y = row3Aliens[i].Y + 20;
-                        row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
-                    }
-
-                    alienSpeed = alienSpeed * -1;
-                    alienSpeed2 = alienSpeed2 * -1;
-                    alienSpeed3 = alienSpeed3 * -1;
-
-
+                    AlienMovment();
                 }
                 else if (row1Aliens[row1Aliens.Count - 1].X > this.Width - row1Aliens[0].Width)
                 {
-                    for (int i = 0; i < row1Aliens.Count(); i++)
-                    {
-                        int x = row1Aliens[i].X - 6;
-                        int y = row1Aliens[i].Y + 20;
-                        row1Aliens[i] = new Rectangle(x, y, row1Aliens[i].Height, row1Aliens[i].Width);
-                    }
-
-                    for (int i = 0; i < row2Aliens.Count(); i++)
-                    {
-                        int y = row2Aliens[i].Y + 20;
-                        row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
-                    }
-
-                    for (int i = 0; i < row3Aliens.Count(); i++)
-                    {
-                        int y = row3Aliens[i].Y + 20;
-                        row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
-                    }
-
-                    alienSpeed = alienSpeed * -1;
-                    alienSpeed2 = alienSpeed2 * -1;
-                    alienSpeed3 = alienSpeed3 * -1;
+                    AlienMovment();
                 }
             }
             //moving row 2 aliens
@@ -190,29 +146,17 @@ namespace SpaceInvaders
 
             //check edges
 
-            //if (row2Aliens.Count > 0)
-            //{
-            //    if (row2Aliens[0].X < 0)
-            //    {
-            //        for (int i = 0; i < row2Aliens.Count(); i++)
-            //        {
-            //            int y = row2Aliens[i].Y + 20;
-            //            row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
-            //        }
-
-            //        alienSpeed2 = alienSpeed2 * -1;
-            //    }
-            //    else if (row2Aliens[row2Aliens.Count - 1].X > this.Width - row2Aliens[0].Width)
-            //    {
-            //        for (int i = 0; i < row2Aliens.Count(); i++)
-            //        {
-            //            int y = row2Aliens[i].Y + 20;
-            //            row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
-            //        }
-
-            //        alienSpeed2 = alienSpeed2 * -1;
-            //    }
-            //}
+            if (row2Aliens.Count > 0)
+            {
+                if (row2Aliens[0].X < 0)
+                {
+                    AlienMovment();
+                }
+                else if (row2Aliens[row2Aliens.Count - 1].X > this.Width - row2Aliens[0].Width)
+                {
+                    AlienMovment();
+                }
+            }
             //moving row 3 aliens
             for (int i = 0; i < row3Aliens.Count(); i++)
             {
@@ -225,29 +169,17 @@ namespace SpaceInvaders
 
             //check edges
 
-            //if (row3Aliens.Count > 0)
-            //{
-            //    if (row3Aliens[0].X < 0)
-            //    {
-            //        for (int i = 0; i < row3Aliens.Count(); i++)
-            //        {
-            //            int y = row3Aliens[i].Y + 20;
-            //            row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
-            //        }
-
-            //        alienSpeed3 = alienSpeed3 * -1;
-            //    }
-            //    else if (row3Aliens[row3Aliens.Count - 1].X > this.Width - row3Aliens[0].Width)
-            //    {
-            //        for (int i = 0; i < row3Aliens.Count(); i++)
-            //        {
-            //            int y = row3Aliens[i].Y + 20;
-            //            row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
-            //        }
-
-            //        alienSpeed3 = alienSpeed3 * -1;
-            //    }
-            //}
+            if (row3Aliens.Count > 0)
+            {
+                if (row3Aliens[0].X < 0)
+                {
+                    AlienMovment();
+                }
+                else if (row3Aliens[row3Aliens.Count - 1].X > this.Width - row3Aliens[0].Width)
+                {
+                    AlienMovment();
+                }
+            }
             //Player Shooting
             if (spaceDown == true)
             {
@@ -270,7 +202,7 @@ namespace SpaceInvaders
             //Removing projectiles that are off screen.
             for (int i = 0; i < playerShot.Count(); i++)
             {
-                if (playerShot[i].Y < 0 +)
+                if (playerShot[i].Y < 0)
                 {
                     playerShot.RemoveAt(i);
                 }
@@ -286,6 +218,8 @@ namespace SpaceInvaders
                     {
                         playerShot.RemoveAt(i);
                         row1Aliens.RemoveAt(j);
+                        score = score + 25;
+                        break;
                     }
                 }
             }
@@ -298,6 +232,8 @@ namespace SpaceInvaders
                     {
                         playerShot.RemoveAt(i);
                         row2Aliens.RemoveAt(j);
+                        score = score + 25;
+                        break;
                     }
                 }
             }
@@ -310,11 +246,13 @@ namespace SpaceInvaders
                     {
                         playerShot.RemoveAt(i);
                         row3Aliens.RemoveAt(j);
+                        score = score + 25;
+                        break;
                     }
                 }
             }
 
-
+            scoreLabel.Text = $"Score: {score}"; 
             Refresh();
         }
 
@@ -342,5 +280,29 @@ namespace SpaceInvaders
                 e.Graphics.FillRectangle(greenBrush, playerShot[i]);
             }
         }
+
+        public void AlienMovment()
+        {
+            for (int i = 0; i < row1Aliens.Count(); i++)
+            {
+                int y = row1Aliens[i].Y + 20;
+                row1Aliens[i] = new Rectangle(row1Aliens[i].X, y, row1Aliens[i].Height, row1Aliens[i].Width);
+            }
+            for (int i = 0; i < row2Aliens.Count(); i++)
+            {
+                int y = row2Aliens[i].Y + 20;
+                row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
+            }
+            for (int i = 0; i < row3Aliens.Count(); i++)
+            {
+                int y = row3Aliens[i].Y + 20;
+                row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
+            }
+
+            alienSpeed = alienSpeed * -1;
+            alienSpeed2 = alienSpeed2 * -1;
+            alienSpeed3 = alienSpeed3 * -1;
+
+        }        
     }
 }

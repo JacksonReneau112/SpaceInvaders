@@ -37,6 +37,7 @@
             // scoreLabel
             // 
             this.scoreLabel.AutoSize = true;
+            this.scoreLabel.BackColor = System.Drawing.Color.Transparent;
             this.scoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scoreLabel.ForeColor = System.Drawing.Color.White;
             this.scoreLabel.Location = new System.Drawing.Point(12, 9);
@@ -48,6 +49,7 @@
             // roundLabel
             // 
             this.roundLabel.AutoSize = true;
+            this.roundLabel.BackColor = System.Drawing.Color.Transparent;
             this.roundLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.roundLabel.ForeColor = System.Drawing.Color.White;
             this.roundLabel.Location = new System.Drawing.Point(472, 9);
