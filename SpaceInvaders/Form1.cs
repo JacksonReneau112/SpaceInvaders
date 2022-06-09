@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace SpaceInvaders
 {
@@ -17,6 +18,7 @@ namespace SpaceInvaders
         List<Rectangle> row2Aliens = new List<Rectangle>();
         List<Rectangle> row3Aliens = new List<Rectangle>();
         List<Rectangle> playerShot = new List<Rectangle>();
+        List<Rectangle> alienShot = new List<Rectangle>();
         List<Rectangle> obsticals = new List<Rectangle>();
 
 
@@ -35,7 +37,10 @@ namespace SpaceInvaders
 
         int x = 0;
 
+        int playerHealth = 3;
+
         string gameState = "waiting";
+        string colour = "Chartreuse";
 
         bool aDown = false;
         bool dDown = false;
@@ -45,13 +50,12 @@ namespace SpaceInvaders
         SolidBrush whiteBrush = new SolidBrush(Color.White);
         SolidBrush redBrush = new SolidBrush(Color.Red);
 
-
+        Random randGen = new Random();
+        int randValue, alienShooting, alienShooting2;
 
         public Form1()
         {
             InitializeComponent();
-
-            AlienInitialzing();
 
             obsticals.Add(new Rectangle(112, 400, 60, 10));
             obsticals.Add(new Rectangle(275, 400, 60, 10));
@@ -61,13 +65,21 @@ namespace SpaceInvaders
 
         public void GameInitialize()
         {
+            AlienInitialzing();
+
             titleLabel.Text = "";
             titleLabel.Visible = false;
             subTitleLabel.Text = "";
             subTitleLabel.Visible = false;
             scoreLabel.Visible = true;
             roundLabel.Visible = true;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = true;
+            pictureBox3.Visible = true;
 
+            round = 1;
+            score = 0;
+            playerHealth = 3;
 
             gameEngine.Enabled = true;
             gameState = "running";
@@ -104,7 +116,7 @@ namespace SpaceInvaders
                     break;
                 case Keys.Enter:
 
-                    if (gameState == "waiting" || gameState == "over")
+                    if (gameState == "waiting" || gameState == "win" || gameState == "lose")
 
                     {
 
@@ -116,7 +128,7 @@ namespace SpaceInvaders
 
                 case Keys.Escape:
 
-                    if (gameState == "waiting" || gameState == "over")
+                    if (gameState == "waiting" || gameState == "win" || gameState == "lose")
 
                     {
 
@@ -145,35 +157,8 @@ namespace SpaceInvaders
                 player.X += playerSpeed;
             }
 
-            //moving row 1 aliens
-            for (int i = 0; i < row1Aliens.Count(); i++)
-            {
-                //find the new postion of x based on speed 
-                x = row1Aliens[i].X + alienSpeed;
-
-                //replace the rectangle in the list with updated one using new x 
-                row1Aliens[i] = new Rectangle(x, row1Aliens[i].Y, row1Aliens[i].Height, row1Aliens[i].Width);
-            }
-
-            //moving row 2 aliens
-            for (int i = 0; i < row2Aliens.Count(); i++)
-            {
-                //find the new postion of x based on speed 
-                x = row2Aliens[i].X + alienSpeed2;
-
-                //replace the rectangle in the list with updated one using new x 
-                row2Aliens[i] = new Rectangle(x, row2Aliens[i].Y, row2Aliens[i].Height, row2Aliens[i].Width);
-            }
-
-            //moving row 3 aliens
-            for (int i = 0; i < row3Aliens.Count(); i++)
-            {
-                //find the new postion of x based on speed 
-                x = row3Aliens[i].X + alienSpeed3;
-
-                //replace the rectangle in the list with updated one using new x 
-                row3Aliens[i] = new Rectangle(x, row3Aliens[i].Y, row3Aliens[i].Height, row3Aliens[i].Width);
-            }
+            //Moving the aliens
+            AlienMovement();
 
             //check edges
 
@@ -181,11 +166,11 @@ namespace SpaceInvaders
             {
                 if (row1Aliens[0].X < 0)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
                 else if (row1Aliens[row1Aliens.Count - 1].X > this.Width - row1Aliens[0].Width)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
             }
 
@@ -195,11 +180,11 @@ namespace SpaceInvaders
             {
                 if (row2Aliens[0].X < 0)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
                 else if (row2Aliens[row2Aliens.Count - 1].X > this.Width - row2Aliens[0].Width)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
             }
 
@@ -209,20 +194,20 @@ namespace SpaceInvaders
             {
                 if (row3Aliens[0].X < 0)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
                 else if (row3Aliens[row3Aliens.Count - 1].X > this.Width - row3Aliens[0].Width)
                 {
-                    AlienMovment();
+                    AlienEdges();
                 }
             }
 
             //Player Shooting
-            if (counter < 10)
+            if (counter < 25)
             {
                 counter++;
             }
-            if (spaceDown == true && counter == 10)
+            if (spaceDown == true && counter == 25)
             {
                 int x = player.X + 10;
                 int y = player.Y;
@@ -241,12 +226,83 @@ namespace SpaceInvaders
                 playerShot[i] = new Rectangle(playerShot[i].X, y, 10, 10);
             }
 
-            //Removing projectiles that are off screen.
+            //Removing player projectiles that are off screen.
             for (int i = 0; i < playerShot.Count(); i++)
             {
                 if (playerShot[i].Y < 0)
                 {
                     playerShot.RemoveAt(i);
+                }
+            }
+
+            //Alien shooting
+            randValue = randGen.Next(0, 101);
+            alienShooting = randGen.Next(0, 5);
+            alienShooting2 = randGen.Next(1, 4);
+
+            //Shoot alien shot if its time
+            if (randValue < 2)
+            {
+                // Chosses random row and random alien
+                for (int i = 0; i < row1Aliens.Count(); i++)
+                {
+                    if (row1Aliens.Count > 0)
+                    {
+                        if (i == alienShooting)
+                        {
+                            if (alienShooting2 == 1)
+                            {
+                                alienShot.Add(new Rectangle(row1Aliens[alienShooting].X, row1Aliens[alienShooting].Y, 10, 10));
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < row2Aliens.Count(); i++)
+                {
+                    if (row2Aliens.Count > 0)
+                    {
+                        if (i == alienShooting)
+                        {
+                            if (alienShooting2 == 2)
+                            {
+                                alienShot.Add(new Rectangle(row2Aliens[alienShooting].X, row2Aliens[alienShooting].Y, 10, 10));
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < row3Aliens.Count(); i++)
+                {
+                    if (row3Aliens.Count > 0)
+                    {
+                        if (i == alienShooting)
+                        {
+                            if (alienShooting2 == 3)
+                            {
+                                alienShot.Add(new Rectangle(row3Aliens[alienShooting].X, row3Aliens[alienShooting].Y, 10, 10));
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Move alien shot
+            for (int i = 0; i < alienShot.Count(); i++)
+            {
+                //find the new postion of x based on speed 
+                int y = alienShot[i].Y - projectileSpeed;
+
+                //replace the rectangle in the list with updated one using new x 
+                alienShot[i] = new Rectangle(alienShot[i].X, y, 10, 10);
+            }
+
+            //Removing alien projectiles that are off screen.
+            for (int i = 0; i < alienShot.Count(); i++)
+            {
+                if (alienShot[i].Y > this.Height)
+                {
+                    alienShot.RemoveAt(i);
                 }
             }
 
@@ -294,7 +350,7 @@ namespace SpaceInvaders
                 }
             }
 
-            //A projectiloe hits the players cover.
+            //A player projectiloe hits the players cover.
             for (int i = 0; i < playerShot.Count(); i++)
             {
                 for (int j = 0; j < obsticals.Count(); j++)
@@ -306,9 +362,52 @@ namespace SpaceInvaders
                     }
                 }
             }
+
+            //A alien projectile hits the players cover
+            for (int i = 0; i < alienShot.Count(); i++)
+            {
+                for (int j = 0; j < obsticals.Count(); j++)
+                {
+                    if (alienShot[i].IntersectsWith(obsticals[j]))
+                    {
+                        alienShot.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+            //Alien projectile hits the player
+            for (int i = 0; i < alienShot.Count(); i++)
+            {
+                if (alienShot[i].IntersectsWith(player))
+                {
+                    alienShot.RemoveAt(i);
+                    playerHealth--;
+                    break;
+                }
+            }
+
+            //Displaying players lives
+            if (playerHealth == 3)
+            {
+                pictureBox1.Visible = true;
+                pictureBox2.Visible = true;
+                pictureBox3.Visible = true;
+            }
+            if (playerHealth == 2)
+            {
+                pictureBox2.Visible = false;
+            }
+            if (playerHealth == 1)
+            {
+                pictureBox3.Visible = false;
+            }
+
+            //Player wins the game
             if (round == 3 && row1Aliens.Count == 0 && row2Aliens.Count == 0 && row3Aliens.Count == 0)
             {
                 gameEngine.Enabled = false;
+                gameState = "win";
             }
             else if (row1Aliens.Count == 0 && row2Aliens.Count == 0 && row3Aliens.Count == 0)
             {
@@ -318,6 +417,11 @@ namespace SpaceInvaders
                 alienSpeed3 = -3;
 
                 AlienInitialzing();
+            }
+            else if (playerHealth == 0)
+            {
+                gameEngine.Enabled = false;
+                gameState = "lose";
             }
 
 
@@ -360,6 +464,11 @@ namespace SpaceInvaders
                     e.Graphics.FillRectangle(redBrush, playerShot[i]);
                 }
 
+                for (int i = 0; i < alienShot.Count(); i++)
+                {
+                    e.Graphics.FillRectangle(redBrush, alienShot[i]);
+                }
+
                 //Display obsticals
                 for (int i = 0; i < obsticals.Count(); i++)
                 {
@@ -369,30 +478,68 @@ namespace SpaceInvaders
                 scoreLabel.Text = $"Score: {score}";
                 roundLabel.Text = $"Round: {round}";
             }
+
+            //Player wins
+            else if (gameState == "win")
+            {
+                titleLabel.Visible = true;
+                subTitleLabel.Visible = true;
+                scoreLabel.Visible = false;
+                roundLabel.Visible = false;
+                pictureBox1.Visible = false;
+                pictureBox2.Visible = false;
+                pictureBox3.Visible = false;
+
+
+                titleLabel.Text = $"YOU GOT ALL THE ALIENS WITH A SCORE OF {score}!";
+
+                subTitleLabel.Text = "Press Enter to Play Again or Escape to Exit";
+
+            }
+
+            //Player losses
+            else if (gameState == "lose")
+            {
+                titleLabel.Visible = true;
+                subTitleLabel.Visible = true;
+                scoreLabel.Visible = false;
+                roundLabel.Visible = false;
+                pictureBox1.Visible = false;
+                pictureBox2.Visible = false;
+                pictureBox3.Visible = false;
+
+                titleLabel.Text = $"THEY GOT YOU IN ROUND {round}! BETTER LUCK NEXT TIME!";
+
+                subTitleLabel.Text = "Press Enter to Play Again or Escape to Exit";
+
+            }
+
         }
 
-        public void AlienMovment()
+        public void AlienEdges()
         {
 
-            for (int i = 0; i < row1Aliens.Count(); i++)
-            {
-                int y = row1Aliens[i].Y + 5;
-                row1Aliens[i] = new Rectangle(row1Aliens[i].X, y, row1Aliens[i].Height, row1Aliens[i].Width);
-            }
             for (int i = 0; i < row2Aliens.Count(); i++)
             {
-                int y = row2Aliens[i].Y + 5;
+                int y = row2Aliens[i].Y + 20;
                 row2Aliens[i] = new Rectangle(row2Aliens[i].X, y, row2Aliens[i].Height, row2Aliens[i].Width);
+            }
+            for (int i = 0; i < row1Aliens.Count(); i++)
+            {
+                int y = row1Aliens[i].Y + 20;
+                row1Aliens[i] = new Rectangle(row1Aliens[i].X, y, row1Aliens[i].Height, row1Aliens[i].Width);
             }
             for (int i = 0; i < row3Aliens.Count(); i++)
             {
-                int y = row3Aliens[i].Y + 5;
+                int y = row3Aliens[i].Y + 20;
                 row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
             }
 
             alienSpeed = alienSpeed * -1;
             alienSpeed2 = alienSpeed2 * -1;
             alienSpeed3 = alienSpeed3 * -1;
+
+            AlienMovement();
 
         }
 
@@ -416,5 +563,38 @@ namespace SpaceInvaders
             row3Aliens.Add(new Rectangle(340, 160, 20, 20));
             row3Aliens.Add(new Rectangle(380, 160, 20, 20));
         }
+
+        public void AlienMovement()
+        {
+            for (int i = 0; i < row1Aliens.Count(); i++)
+            {
+                //find the new postion of x based on speed 
+                x = row1Aliens[i].X + alienSpeed;
+
+                //replace the rectangle in the list with updated one using new x 
+                row1Aliens[i] = new Rectangle(x, row1Aliens[i].Y, row1Aliens[i].Height, row1Aliens[i].Width);
+            }
+
+            //moving row 2 aliens
+            for (int i = 0; i < row2Aliens.Count(); i++)
+            {
+                //find the new postion of x based on speed 
+                x = row2Aliens[i].X + alienSpeed2;
+
+                //replace the rectangle in the list with updated one using new x 
+                row2Aliens[i] = new Rectangle(x, row2Aliens[i].Y, row2Aliens[i].Height, row2Aliens[i].Width);
+            }
+
+            //moving row 3 aliens
+            for (int i = 0; i < row3Aliens.Count(); i++)
+            {
+                //find the new postion of x based on speed 
+                x = row3Aliens[i].X + alienSpeed3;
+
+                //replace the rectangle in the list with updated one using new x 
+                row3Aliens[i] = new Rectangle(x, row3Aliens[i].Y, row3Aliens[i].Height, row3Aliens[i].Width);
+            }
+        }
+
     }
 }

@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +79,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pixel-heart-11550717414064zsafcfv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\heart1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8-bit-heart-pixel-heart-115690148590zhw0zph5j.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pxelheart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pixelheart2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kisspng-pixel-art-vector-graphics-drawing-image-gradient-pixel-heart-pixelheart-gradientheart-grad-5b75e0f26c73f7.1721565315344519544442.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\heart-png-15.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
