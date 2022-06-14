@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.IO;
 
 namespace SpaceInvaders
 {
@@ -67,6 +68,7 @@ namespace SpaceInvaders
         {
             AlienInitialzing();
 
+            // remove title and text
             titleLabel.Text = "";
             titleLabel.Visible = false;
             subTitleLabel.Text = "";
@@ -77,13 +79,15 @@ namespace SpaceInvaders
             pictureBox2.Visible = true;
             pictureBox3.Visible = true;
 
+            //Reset player health,round, and score
             round = 1;
             score = 0;
-            playerHealth = 3;
+            playerHealth = 3;            
+            player.X = 290;
 
+            //turn game on
             gameEngine.Enabled = true;
             gameState = "running";
-
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -211,8 +215,12 @@ namespace SpaceInvaders
             {
                 int x = player.X + 10;
                 int y = player.Y;
-                playerShot.Add(new Rectangle(x, y, 10, 10));
+                playerShot.Add(new Rectangle(x, y, 5, 10));
                 counter = 0;
+
+                var laserSound = new System.Windows.Media.MediaPlayer();
+                laserSound.Open(new Uri(Application.StartupPath + "/Resources/laser.wav"));
+                laserSound.Play();
             }
 
             // Moving projectiles
@@ -223,7 +231,7 @@ namespace SpaceInvaders
                 int y = playerShot[i].Y + projectileSpeed;
 
                 //replace the rectangle in the list with updated one using new x 
-                playerShot[i] = new Rectangle(playerShot[i].X, y, 10, 10);
+                playerShot[i] = new Rectangle(playerShot[i].X, y, 5, 10);
             }
 
             //Removing player projectiles that are off screen.
@@ -252,7 +260,7 @@ namespace SpaceInvaders
                         {
                             if (alienShooting2 == 1)
                             {
-                                alienShot.Add(new Rectangle(row1Aliens[alienShooting].X, row1Aliens[alienShooting].Y, 10, 10));
+                                alienShot.Add(new Rectangle(row1Aliens[alienShooting].X, row1Aliens[alienShooting].Y, 5, 10));
                             }
                         }
                     }
@@ -266,7 +274,7 @@ namespace SpaceInvaders
                         {
                             if (alienShooting2 == 2)
                             {
-                                alienShot.Add(new Rectangle(row2Aliens[alienShooting].X, row2Aliens[alienShooting].Y, 10, 10));
+                                alienShot.Add(new Rectangle(row2Aliens[alienShooting].X, row2Aliens[alienShooting].Y, 5, 10));
                             }
                         }
                     }
@@ -280,7 +288,7 @@ namespace SpaceInvaders
                         {
                             if (alienShooting2 == 3)
                             {
-                                alienShot.Add(new Rectangle(row3Aliens[alienShooting].X, row3Aliens[alienShooting].Y, 10, 10));
+                                alienShot.Add(new Rectangle(row3Aliens[alienShooting].X, row3Aliens[alienShooting].Y, 5, 10));
                             }
                         }
                     }
@@ -294,7 +302,7 @@ namespace SpaceInvaders
                 int y = alienShot[i].Y - projectileSpeed;
 
                 //replace the rectangle in the list with updated one using new x 
-                alienShot[i] = new Rectangle(alienShot[i].X, y, 10, 10);
+                alienShot[i] = new Rectangle(alienShot[i].X, y, 5, 10);
             }
 
             //Removing alien projectiles that are off screen.
@@ -314,6 +322,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row1Aliens[j]))
                     {
+                        //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row1Aliens.RemoveAt(j);
                         score = score + 25;
@@ -328,6 +337,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row2Aliens[j]))
                     {
+                        //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row2Aliens.RemoveAt(j);
                         score = score + 25;
@@ -342,6 +352,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row3Aliens[j]))
                     {
+                        //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row3Aliens.RemoveAt(j);
                         score = score + 25;
@@ -422,6 +433,13 @@ namespace SpaceInvaders
             {
                 gameEngine.Enabled = false;
                 gameState = "lose";
+
+                row1Aliens.Clear();
+                row2Aliens.Clear();
+                row3Aliens.Clear();
+                playerShot.Clear();
+                alienShot.Clear();
+
             }
 
 
