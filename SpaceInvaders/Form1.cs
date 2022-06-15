@@ -219,7 +219,7 @@ namespace SpaceInvaders
                 counter = 0;
 
                 var laserSound = new System.Windows.Media.MediaPlayer();
-                laserSound.Open(new Uri(Application.StartupPath + "/Resources/laser.wav"));
+                laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
                 laserSound.Play();
             }
 
@@ -261,6 +261,11 @@ namespace SpaceInvaders
                             if (alienShooting2 == 1)
                             {
                                 alienShot.Add(new Rectangle(row1Aliens[alienShooting].X, row1Aliens[alienShooting].Y, 5, 10));
+
+                                var laserSound = new System.Windows.Media.MediaPlayer();
+                                laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
+                                laserSound.Play();
+
                             }
                         }
                     }
@@ -275,6 +280,11 @@ namespace SpaceInvaders
                             if (alienShooting2 == 2)
                             {
                                 alienShot.Add(new Rectangle(row2Aliens[alienShooting].X, row2Aliens[alienShooting].Y, 5, 10));
+
+                                var laserSound = new System.Windows.Media.MediaPlayer();
+                                laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
+                                laserSound.Play();
+
                             }
                         }
                     }
@@ -289,6 +299,11 @@ namespace SpaceInvaders
                             if (alienShooting2 == 3)
                             {
                                 alienShot.Add(new Rectangle(row3Aliens[alienShooting].X, row3Aliens[alienShooting].Y, 5, 10));
+
+                                var laserSound = new System.Windows.Media.MediaPlayer();
+                                laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
+                                laserSound.Play();
+
                             }
                         }
                     }
