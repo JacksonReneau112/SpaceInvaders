@@ -108,5 +108,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\521638__fupicat__windoot.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\364929__jofae__game-die.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\350982__cabled-mess__lose-c-06.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

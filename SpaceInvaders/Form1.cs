@@ -82,7 +82,7 @@ namespace SpaceInvaders
             //Reset player health,round, and score
             round = 1;
             score = 0;
-            playerHealth = 3;            
+            playerHealth = 3;
             player.X = 290;
 
             //turn game on
@@ -337,6 +337,10 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row1Aliens[j]))
                     {
+                        var dieSound = new System.Windows.Media.MediaPlayer();
+                        dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
+                        dieSound.Play();
+
                         //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row1Aliens.RemoveAt(j);
@@ -352,6 +356,10 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row2Aliens[j]))
                     {
+                        var dieSound = new System.Windows.Media.MediaPlayer();
+                        dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
+                        dieSound.Play();
+
                         //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row2Aliens.RemoveAt(j);
@@ -367,6 +375,10 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row3Aliens[j]))
                     {
+                        var dieSound = new System.Windows.Media.MediaPlayer();
+                        dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
+                        dieSound.Play();
+
                         //removes shot and alien then adds score
                         playerShot.RemoveAt(i);
                         row3Aliens.RemoveAt(j);
@@ -523,6 +535,10 @@ namespace SpaceInvaders
                 pictureBox2.Visible = false;
                 pictureBox3.Visible = false;
 
+                var winSound = new System.Windows.Media.MediaPlayer();
+                winSound.Open(new Uri(Application.StartupPath + "/Resources/521638__fupicat__windoot.wav"));
+                winSound.Play();
+
 
                 titleLabel.Text = $"YOU GOT ALL THE ALIENS WITH A SCORE OF {score}!";
 
@@ -540,6 +556,10 @@ namespace SpaceInvaders
                 pictureBox1.Visible = false;
                 pictureBox2.Visible = false;
                 pictureBox3.Visible = false;
+
+                var loseSound = new System.Windows.Media.MediaPlayer();
+                loseSound.Open(new Uri(Application.StartupPath + "/Resources/350982__cabled-mess__lose-c-06.wav"));
+                loseSound.Play();
 
                 titleLabel.Text = $"THEY GOT YOU IN ROUND {round}! BETTER LUCK NEXT TIME!";
 
