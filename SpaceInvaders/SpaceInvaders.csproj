@@ -117,5 +117,8 @@
   <ItemGroup>
     <None Include="Resources\350982__cabled-mess__lose-c-06.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\alien-pixelated-shape-of-a-digital-game.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

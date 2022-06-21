@@ -10,10 +10,16 @@ using System.Windows.Forms;
 using System.Media;
 using System.IO;
 
+/// Developer:  Jackson Reneau
+/// Date:             June 21, 2022 
+/// Description: Recreation of the popular game Space invaders.
+
+
 namespace SpaceInvaders
 {
     public partial class Form1 : Form
     {
+        // Lists for moving objects and multiple objects
         Rectangle player = new Rectangle(290, 450, 30, 10);
         List<Rectangle> row1Aliens = new List<Rectangle>();
         List<Rectangle> row2Aliens = new List<Rectangle>();
@@ -23,14 +29,14 @@ namespace SpaceInvaders
         List<Rectangle> obsticals = new List<Rectangle>();
 
 
-
+        //Speeds
         int playerSpeed = 5;
         int alienSpeed = -3;
         int alienSpeed2 = -3;
         int alienSpeed3 = -3;
-
         int projectileSpeed = -10;
 
+        //Game trackers
         int score = 0;
         int round = 1;
 
@@ -41,16 +47,18 @@ namespace SpaceInvaders
         int playerHealth = 3;
 
         string gameState = "waiting";
-        string colour = "Chartreuse";
 
+        //Bool variables for keys down
         bool aDown = false;
         bool dDown = false;
         bool spaceDown = false;
 
+        //Brushes for displaying objects.
         SolidBrush greenBrush = new SolidBrush(Color.Chartreuse);
         SolidBrush whiteBrush = new SolidBrush(Color.White);
         SolidBrush redBrush = new SolidBrush(Color.Red);
 
+        //Random generator
         Random randGen = new Random();
         int randValue, alienShooting, alienShooting2;
 
@@ -58,6 +66,7 @@ namespace SpaceInvaders
         {
             InitializeComponent();
 
+            // initializes the obsticals
             obsticals.Add(new Rectangle(112, 400, 60, 10));
             obsticals.Add(new Rectangle(275, 400, 60, 10));
             obsticals.Add(new Rectangle(437, 400, 60, 10));
@@ -218,6 +227,7 @@ namespace SpaceInvaders
                 playerShot.Add(new Rectangle(x, y, 5, 10));
                 counter = 0;
 
+                //Plays sound
                 var laserSound = new System.Windows.Media.MediaPlayer();
                 laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
                 laserSound.Play();
@@ -262,6 +272,7 @@ namespace SpaceInvaders
                             {
                                 alienShot.Add(new Rectangle(row1Aliens[alienShooting].X, row1Aliens[alienShooting].Y, 5, 10));
 
+                                //Plays sound
                                 var laserSound = new System.Windows.Media.MediaPlayer();
                                 laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
                                 laserSound.Play();
@@ -281,6 +292,7 @@ namespace SpaceInvaders
                             {
                                 alienShot.Add(new Rectangle(row2Aliens[alienShooting].X, row2Aliens[alienShooting].Y, 5, 10));
 
+                                //Plays sound
                                 var laserSound = new System.Windows.Media.MediaPlayer();
                                 laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
                                 laserSound.Play();
@@ -300,6 +312,7 @@ namespace SpaceInvaders
                             {
                                 alienShot.Add(new Rectangle(row3Aliens[alienShooting].X, row3Aliens[alienShooting].Y, 5, 10));
 
+                                //Plays sound
                                 var laserSound = new System.Windows.Media.MediaPlayer();
                                 laserSound.Open(new Uri(Application.StartupPath + "/Resources/35679__jobro__laser2.wav"));
                                 laserSound.Play();
@@ -337,6 +350,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row1Aliens[j]))
                     {
+                        //Plays sound
                         var dieSound = new System.Windows.Media.MediaPlayer();
                         dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
                         dieSound.Play();
@@ -356,6 +370,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row2Aliens[j]))
                     {
+                        //Plays sound
                         var dieSound = new System.Windows.Media.MediaPlayer();
                         dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
                         dieSound.Play();
@@ -375,6 +390,7 @@ namespace SpaceInvaders
                 {
                     if (playerShot[i].IntersectsWith(row3Aliens[j]))
                     {
+                        //Plays sound
                         var dieSound = new System.Windows.Media.MediaPlayer();
                         dieSound.Open(new Uri(Application.StartupPath + "/Resources/_364929__jofae__game_die.wav"));
                         dieSound.Play();
@@ -447,6 +463,7 @@ namespace SpaceInvaders
                 gameEngine.Enabled = false;
                 gameState = "win";
             }
+            //Starting new rounds
             else if (row1Aliens.Count == 0 && row2Aliens.Count == 0 && row3Aliens.Count == 0)
             {
                 round++;
@@ -456,6 +473,7 @@ namespace SpaceInvaders
 
                 AlienInitialzing();
             }
+            //Player loses game
             else if (playerHealth == 0)
             {
                 gameEngine.Enabled = false;
@@ -527,6 +545,7 @@ namespace SpaceInvaders
             //Player wins
             else if (gameState == "win")
             {
+                //Displays titles
                 titleLabel.Visible = true;
                 subTitleLabel.Visible = true;
                 scoreLabel.Visible = false;
@@ -535,6 +554,7 @@ namespace SpaceInvaders
                 pictureBox2.Visible = false;
                 pictureBox3.Visible = false;
 
+                //Plays sound
                 var winSound = new System.Windows.Media.MediaPlayer();
                 winSound.Open(new Uri(Application.StartupPath + "/Resources/521638__fupicat__windoot.wav"));
                 winSound.Play();
@@ -549,6 +569,7 @@ namespace SpaceInvaders
             //Player losses
             else if (gameState == "lose")
             {
+                //Displays titles
                 titleLabel.Visible = true;
                 subTitleLabel.Visible = true;
                 scoreLabel.Visible = false;
@@ -557,6 +578,7 @@ namespace SpaceInvaders
                 pictureBox2.Visible = false;
                 pictureBox3.Visible = false;
 
+                //Plays sound
                 var loseSound = new System.Windows.Media.MediaPlayer();
                 loseSound.Open(new Uri(Application.StartupPath + "/Resources/350982__cabled-mess__lose-c-06.wav"));
                 loseSound.Play();
@@ -571,7 +593,7 @@ namespace SpaceInvaders
 
         public void AlienEdges()
         {
-
+            //Checks to see if any aliens have hit the edge of screen then Flips direction and drops them down.
             for (int i = 0; i < row2Aliens.Count(); i++)
             {
                 int y = row2Aliens[i].Y + 20;
@@ -588,6 +610,7 @@ namespace SpaceInvaders
                 row3Aliens[i] = new Rectangle(row3Aliens[i].X, y, row3Aliens[i].Height, row3Aliens[i].Width);
             }
 
+            //Switches direction
             alienSpeed = alienSpeed * -1;
             alienSpeed2 = alienSpeed2 * -1;
             alienSpeed3 = alienSpeed3 * -1;
@@ -598,6 +621,7 @@ namespace SpaceInvaders
 
         public void AlienInitialzing()
         {
+            //Displays all of the aliens
             row1Aliens.Add(new Rectangle(220, 100, 20, 20));
             row1Aliens.Add(new Rectangle(260, 100, 20, 20));
             row1Aliens.Add(new Rectangle(300, 100, 20, 20));
@@ -619,6 +643,7 @@ namespace SpaceInvaders
 
         public void AlienMovement()
         {
+            // Moves aliens
             for (int i = 0; i < row1Aliens.Count(); i++)
             {
                 //find the new postion of x based on speed 
